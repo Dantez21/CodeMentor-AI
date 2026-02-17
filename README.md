@@ -1,1 +1,1 @@
-# CodingBot
+# CodeMentor AI

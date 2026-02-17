@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+dist/
+.env
+
+# Python
+__pycache__/
+venv/
+*.pyc
+.ipynb_checkpoints/
+
+# Database
+*.db
+
+# OS files
+.DS_Store
+Thumbs.db

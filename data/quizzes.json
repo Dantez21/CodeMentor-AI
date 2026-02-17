@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "question": "What is the output of: print(2 ** 3)?",
+    "options": ["A) 6", "B) 8", "C) 9", "D) 5"],
+    "answer": "B",
+    "explanation": "The ** operator in Python is used for exponentiation. 2 to the power of 3 is 8."
+  },
+  {
+    "id": 2,
+    "question": "Which of these is used to define a function in Python?",
+    "options": ["A) func", "B) function", "C) def", "D) define"],
+    "answer": "C",
+    "explanation": "In Python, we use the 'def' keyword followed by the function name."
+  }
+]

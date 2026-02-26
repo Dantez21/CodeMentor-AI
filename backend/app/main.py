@@ -70,27 +70,42 @@ def read_root(db: Session = Depends(get_db)):
     }
 
 # 1. QUIZ SYSTEM
-# --- Paths (Improved for Debugging) ---
-# This looks for the 'data' folder in the project root, regardless of where main.py is
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Get current file directory (backend/app)
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Move one level up → backend
+BASE_DIR = os.path.dirname(CURRENT_DIR)
+
+# Now go to backend/data/quizzes.json
 DATA_PATH = os.path.join(BASE_DIR, "data", "quizzes.json")
+
 
 # 1. QUIZ SYSTEM
 @app.get("/api/quizzes")
 async def get_quizzes():
-    print(f"DEBUG: Looking for quizzes at: {DATA_PATH}") # Check your terminal for this!
-    
+    print(f"DEBUG: Looking for quizzes at: {DATA_PATH}")
+
     if not os.path.exists(DATA_PATH):
         print("DEBUG: File not found!")
-        return [{"id": 0, "question": "Error: quizzes.json not found at " + DATA_PATH, "options": ["Check Path", "Move File"], "answer": "Check Path"}]
-    
+        return [{
+            "id": 0,
+            "question": "Error: quizzes.json not found at " + DATA_PATH,
+            "options": ["Check Path", "Move File"],
+            "answer": "Check Path"
+        }]
+
     try:
-        with open(DATA_PATH, "r", encoding='utf-8') as f:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
             return data
     except Exception as e:
         print(f"DEBUG: JSON Error: {e}")
-        return [{"id": 0, "question": "Error loading JSON: " + str(e), "options": ["Fix JSON", "Retry"], "answer": "Fix JSON"}]
+        return [{
+            "id": 0,
+            "question": "Error loading JSON: " + str(e),
+            "options": ["Fix JSON", "Retry"],
+            "answer": "Fix JSON"
+        }]
 
 @app.post("/api/save-score")
 async def save_score(data: ScoreUpdate, db: Session = Depends(get_db)):

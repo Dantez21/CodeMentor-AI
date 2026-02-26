@@ -1,16 +1,63 @@
 [
   {
     "id": 1,
-    "question": "What is the output of: print(2 ** 3)?",
-    "options": ["A) 6", "B) 8", "C) 9", "D) 5"],
-    "answer": "B",
-    "explanation": "The ** operator in Python is used for exponentiation. 2 to the power of 3 is 8."
+    "question": "Which keyword is used to create a function in Python?",
+    "options": ["function", "def", "create", "func"],
+    "answer": "def"
   },
   {
     "id": 2,
-    "question": "Which of these is used to define a function in Python?",
-    "options": ["A) func", "B) function", "C) def", "D) define"],
-    "answer": "C",
-    "explanation": "In Python, we use the 'def' keyword followed by the function name."
+    "question": "How do you start a for loop in Python?",
+    "options": ["for i in range(5):", "for(i=0; i<5; i++)", "loop i to 5:", "for i to 5"],
+    "answer": "for i in range(5):"
+  },
+  {
+    "id": 3,
+    "question": "What is the correct way to create a variable with the numeric value 5?",
+    "options": ["x = 5", "num x = 5", "int x = 5", "x := 5"],
+    "answer": "x = 5"
+  },
+  {
+    "id": 4,
+    "question": "Which of these is used to define a block of code in Python?",
+    "options": ["Curly braces", "Parentheses", "Indentation", "Quotation marks"],
+    "answer": "Indentation"
+  },
+  {
+    "id": 5,
+    "question": "What is the output of: print(type([]) )?",
+    "options": ["<class 'tuple'>", "<class 'dict'>", "<class 'list'>", "<class 'set'>"],
+    "answer": "<class 'list'>"
+  },
+  {
+    "id": 6,
+    "question": "Which method is used to add an element to the end of a list?",
+    "options": [".add()", ".insert()", ".append()", ".push()"],
+    "answer": ".append()"
+  },
+
+  {
+    "id": 7,
+    "question": "What is the correct way to write a comment in Python?",
+    "options": ["// This is a comment", "# This is a comment", "<!-- This is a comment -->", "/* This is a comment */"],
+    "answer": "# This is a comment"
+  },
+  {
+    "id": 8,
+    "question": "Which of the following is a valid variable name in Python?",
+    "options": ["1variable", "variable_name", "variable-name", "variable name"],
+    "answer": "variable_name"
+  },
+  {
+    "id": 9,
+    "question": "What is the output of: print(2 ** 3)?",
+    "options": ["6", "8", "9", "5"],
+    "answer": "8"
+  },
+  {
+    "id": 10,
+    "question": "Which of the following is used to handle exceptions in Python?",
+    "options": ["try-except", "catch-throw", "handle-error", "except-try"],
+    "answer": "try-except"
   }
 ]

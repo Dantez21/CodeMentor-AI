@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8000/api";
+// const API_URL = "http://localhost:8000/api";
+const API_URL = "https://codementor-ai-h66o.onrender.com/api";
 
 export const fetchQuizzes = async () => {
     try {

@@ -52,9 +52,6 @@ def get_db():
     finally:
         db.close()
 
-# --- Paths ---
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "quizzes.json")
-
 # --- Professional Routes ---
 
 @app.get("/")
@@ -73,13 +70,27 @@ def read_root(db: Session = Depends(get_db)):
     }
 
 # 1. QUIZ SYSTEM
+# --- Paths (Improved for Debugging) ---
+# This looks for the 'data' folder in the project root, regardless of where main.py is
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_PATH = os.path.join(BASE_DIR, "data", "quizzes.json")
+
+# 1. QUIZ SYSTEM
 @app.get("/api/quizzes")
 async def get_quizzes():
+    print(f"DEBUG: Looking for quizzes at: {DATA_PATH}") # Check your terminal for this!
+    
     if not os.path.exists(DATA_PATH):
-        # Fallback sample data if file is missing
-        return [{"id": 1, "question": "Define a function in Python", "options": ["def", "func"], "answer": "def"}]
-    with open(DATA_PATH, "r") as f:
-        return json.load(f)
+        print("DEBUG: File not found!")
+        return [{"id": 0, "question": "Error: quizzes.json not found at " + DATA_PATH, "options": ["Check Path", "Move File"], "answer": "Check Path"}]
+    
+    try:
+        with open(DATA_PATH, "r", encoding='utf-8') as f:
+            data = json.load(f)
+            return data
+    except Exception as e:
+        print(f"DEBUG: JSON Error: {e}")
+        return [{"id": 0, "question": "Error loading JSON: " + str(e), "options": ["Fix JSON", "Retry"], "answer": "Fix JSON"}]
 
 @app.post("/api/save-score")
 async def save_score(data: ScoreUpdate, db: Session = Depends(get_db)):
@@ -94,37 +105,26 @@ async def save_score(data: ScoreUpdate, db: Session = Depends(get_db)):
 async def chat_logic(chat: ChatMessage):
     text = chat.message.lower()
     
-    # Expanded Knowledge Base for CodeMentor AI
     responses = {
-        # Greeting & Identity
         "hello": "Hello! I am your CodeMentor AI. I can help you with Python basics, debugging, and quizzes. What are we learning today?",
         "hi": "Hi there! Ready to write some Python code? Ask me about variables, loops, or functions!",
         "who are you": "I am CodeMentor AI, your personal programming tutor designed to make learning Python easy and interactive.",
-        
-        # Variables & Data Types
         "variable": "Variables are containers for storing data. In Python, you create one just by assigning a value: `x = 5`. No special command needed!",
         "string": "A string is a sequence of characters inside quotes. Example: `name = 'CodeMentor'`. You can join them using `+`.",
         "integer": "Integers (int) are whole numbers without decimals, like `10` or `-5`.",
         "float": "Floats are numbers with decimal points, like `3.14` or `10.0`.",
         "boolean": "Booleans represent one of two values: `True` or `False`. They are essential for logic and 'if' statements.",
-        
-        # Collections
         "list": "A list is an ordered collection that can be changed (mutable). Example: `fruits = ['apple', 'banana']`. Use `.append()` to add items.",
         "dictionary": "Dictionaries store data in key-value pairs. Example: `student = {'name': 'Ali', 'grade': 'A'}`.",
         "tuple": "Tuples are like lists but cannot be changed after creation (immutable). We define them with parentheses: `colors = ('red', 'green')`.",
-        
-        # Logic & Loops
         "loop": "Loops let you run code multiple times. Use a `for` loop to iterate over a list, and a `while` loop to run as long as a condition is true.",
         "if statement": "If statements check a condition. If it's true, the code inside runs. Example: `if x > 5: print('Big!')`.",
         "function": "Functions are reusable blocks of code. You define them with `def`, like this: `def my_function():`. They help keep your code organized.",
-        
-        # Debugging & General
         "error": "Encountered an error? Try checking your indentation or missing colons (:). You can also paste your code in the 'Debug' tab!",
         "indentation": "In Python, indentation is mandatory! It tells the computer which lines of code belong to a function or a loop.",
         "comment": "Use the `#` symbol to write comments. Comments are ignored by the computer and are just for humans to read.",
     }
 
-    # Find first matching keyword
     matched_key = next((key for key in sorted(responses.keys(), key=len, reverse=True) if key in text), None)
     
     if matched_key:
@@ -133,10 +133,6 @@ async def chat_logic(chat: ChatMessage):
         reply = "I'm specialized in Python basics! I'm still in training. Try asking about 'loops', 'variables', 'functions', or 'lists'."
     
     return {"reply": reply}
-    # reply = next((val for key, val in responses.items() if key in text), 
-    #              "I'm specialized in Python basics. Could you clarify your question about variables, loops, or lists?")
-    
-    # return {"reply": reply}
 
 # 3. DEBUG ASSISTANT
 @app.post("/api/debug")
@@ -148,22 +144,17 @@ async def debug_logic(request: DebugRequest):
     
     for i, line in enumerate(lines):
         new_line = line
-        
-        # 1. Fix Missing Colon
         keywords = ('def', 'if', 'for', 'while', 'elif', 'else', 'class')
         if any(new_line.strip().startswith(k) for k in keywords) and not new_line.strip().endswith(':'):
             errors.append(f"Missing colon on line {i+1}")
             new_line = new_line.rstrip() + ":"
             
-        # 2. Fix Print Parentheses
         if "print " in new_line and "(" not in new_line:
             errors.append(f"Missing parentheses for print on line {i+1}")
-            # Replaces 'print "text"' with 'print("text")'
             content = new_line.replace("print", "").strip()
             indent = len(new_line) - len(new_line.lstrip())
             new_line = (" " * indent) + f"print({content})"
             
-        # 3. Fix Assignment in 'if' (if x = 5 -> if x == 5)
         if new_line.strip().startswith("if ") and " = " in new_line and " == " not in new_line:
             errors.append(f"Used '=' instead of '==' on line {i+1}")
             new_line = new_line.replace(" = ", " == ")

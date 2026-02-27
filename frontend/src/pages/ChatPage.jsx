@@ -27,7 +27,8 @@ const ChatPage = () => {
     setIsTyping(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/chat", {
+      // UPDATED URL BELOW
+      const response = await fetch("https://codementor-ai-qtj0.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: textToSend }),
@@ -42,7 +43,7 @@ const ChatPage = () => {
       }, 800);
     } catch (error) {
       console.error("Error connecting to API:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: "Sorry, I'm having trouble connecting to the server. Is the backend running?" }]);
+      setMessages(prev => [...prev, { role: 'bot', text: "Sorry, I'm having trouble connecting to the server. Please check if the Render backend is live." }]);
       setIsTyping(false);
     }
   };

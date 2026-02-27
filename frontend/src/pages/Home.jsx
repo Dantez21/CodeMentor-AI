@@ -12,7 +12,8 @@ const Home = () => {
 
   // Fetch real-time progress from the Backend SQLite DB
   useEffect(() => {
-    fetch("http://localhost:8000/")
+    // UPDATED URL BELOW
+    fetch("https://codementor-ai-qtj0.onrender.com/")
       .then(res => res.json())
       .then(data => {
         setStats({

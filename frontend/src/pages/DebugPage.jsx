@@ -16,7 +16,8 @@ const DebugPage = () => {
     if (!code.trim()) return;
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/api/debug", {
+      // UPDATED URL BELOW
+      const response = await fetch("https://codementor-ai-qtj0.onrender.com/api/debug", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: code }),
@@ -28,7 +29,7 @@ const DebugPage = () => {
       setResults({ 
         status: "error", 
         message: "Backend Offline", 
-        suggestion: "Ensure your FastAPI server is running (uvicorn app.main:app --reload)" 
+        suggestion: "Ensure your FastAPI server is running on Render." 
       });
     } finally {
       setLoading(false);

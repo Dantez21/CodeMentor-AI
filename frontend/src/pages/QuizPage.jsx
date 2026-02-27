@@ -11,7 +11,8 @@ const QuizPage = () => {
   const [completedQuestions, setCompletedQuestions] = useState(0);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/quizzes")
+    // UPDATED URL BELOW
+    fetch("https://codementor-ai-qtj0.onrender.com/api/quizzes")
       .then(res => res.json())
       .then(data => setQuizzes(data))
       .catch(err => console.error("Error fetching quizzes:", err));
@@ -51,7 +52,8 @@ const QuizPage = () => {
         setShowResult(true);
         
         // Save to Database (Objective 4.4)
-        await fetch("http://localhost:8000/api/save-score", {
+        // UPDATED URL BELOW
+        await fetch("https://codementor-ai-qtj0.onrender.com/api/save-score", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ score: finalScore }),

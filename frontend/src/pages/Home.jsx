@@ -34,9 +34,12 @@ const Home = () => {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h2 className="text-4xl font-black text-slate-800 tracking-tight">
-          Welcome back, <span className="text-[#1e5bb8]">{stats.username}</span>
+          AI Python Coding Assistant for Learning and Debugging Code
+          {/* Welcome back, <span className="text-[#1e5bb8]">{stats.username}</span> */}
         </h2>
         <p className="text-slate-500 mt-3 text-lg font-medium">
+          CodeMentor AI helps developers learn Python faster using AI chat, coding quizzes, and automated bug fixing.
+          
           Ready to sharpen your Python skills today?
         </p>
       </div>

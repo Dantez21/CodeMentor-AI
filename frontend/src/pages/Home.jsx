@@ -39,7 +39,7 @@ const Home = () => {
         </h2>
         <p className="text-slate-500 mt-3 text-lg font-medium">
           CodeMentor AI helps developers learn Python faster using AI chat, coding quizzes, and automated bug fixing.
-
+        <br />
           Ready to sharpen your Python skills today?
         </p>
       </div>
